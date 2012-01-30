@@ -1,0 +1,16 @@
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices\Bin\Debug\PHPServices.dll
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices\Bin\Debug\PHPServices.pdb
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices\Bin\Debug\Newtonsoft.Json.dll
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices\Bin\Debug\Newtonsoft.Json.pdb
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices\Bin\Debug\Newtonsoft.Json.xml
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices\obj\Debug\ResolveAssemblyReference.cache
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices\obj\Debug\PHPServices.dll
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices\obj\Debug\PHPServices.pdb
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\Bin\Debug\PHPServices.dll
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\Bin\Debug\PHPServices.pdb
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\Bin\Debug\Newtonsoft.Json.dll
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\Bin\Debug\Newtonsoft.Json.pdb
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\Bin\Debug\Newtonsoft.Json.xml
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\obj\Debug\ResolveAssemblyReference.cache
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\obj\Debug\PHPServices.dll
+D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\obj\Debug\PHPServices.pdb
