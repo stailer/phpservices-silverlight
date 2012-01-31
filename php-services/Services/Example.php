@@ -1,16 +1,12 @@
-﻿<?php
+<?php
 class Services_Example 
 {
     /**
-     * Return HelloWorld
+     * Return string
      */
     public function HelloWorld()
     {
-        $obj = new SimpleObject();
-         
-        $obj->Mytext = $obj->val('Hello World !');
-
-        return $obj;
+        return 'HelloWorld from PHP !';
     }
     
 }
