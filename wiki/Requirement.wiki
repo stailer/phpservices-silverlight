@@ -1,13 +1,18 @@
 #summary Requirement
 
-= Introduction =
 
-Add your content here.
+  * Silverlight 5 with property checked : Require elevated trust when running in browser.
+
+or
+
+  * Silverlight 5 same server than PHP Server.
+
+or
+
+  * Silverlight 4 same server then PHP Server.
 
 
-= Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Other :
+
+ * Require PHP 5.2 minimum
