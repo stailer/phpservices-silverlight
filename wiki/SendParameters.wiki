@@ -38,4 +38,4 @@ public void GetHelloWorld()
 }
 </code>
 
-This sample return "Hello from php, Jeff DOE"
+This sample return "Hello from php, Jeff DOE !"
