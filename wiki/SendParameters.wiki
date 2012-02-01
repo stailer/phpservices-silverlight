@@ -1,13 +1,41 @@
-#summary Send parameters
-
-= Introduction =
-
-Add your content here.
+==1 - Initialize in C#==
+<code language="c#">
+    private PhpClient php ;
 
 
-= Details =
+    this.php = new PhpClient("http://localhost/services/", "application/x-www-form-urlencoded", this);
+</code>
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+==2 - Basically, create your method in PHP :==
+
+<code language="php">
+<?php
+class Services_Example 
+{
+    public function GetName($firstname, $lastname)
+    {
+        return 'Hello from php, '.$lastname.' '.$firstname.' !';
+    }
+}
+</code>
+
+
+==3 - C# Client Service, create your call :==
+
+<code language="c#">
+public void Services_Example_GetName_Completed(string myReturn)
+{
+     MessageBox.Show(myReturn);
+}
+
+public void GetHelloWorld()
+{
+  List<PhpClientParameter> parameters = new List<PhpClientParameter>();
+  parameters.Add(new PhpClientParameter("firstname", "Jeff"));
+  parameters.Add(new PhpClientParameter("lastname", "DOE"));
+
+  this.php.ExecuteAsync("Services_Example", "GetName", parameters);
+}
+</code>
+
+This sample return "Hello from php, Jeff DOE"
