@@ -1,12 +1,4 @@
-==1 - Initialize in C#==
-<code language="c#">
-    private PhpClient php ;
-
-
-    this.php = new PhpClient("http://localhost/services/", "application/x-www-form-urlencoded", this);
-</code>
-
-==2 - Basically, create your method in PHP :==
+== your method in PHP :==
 
 <code language="php">
 <?php
@@ -14,13 +6,13 @@ class Services_Example
 {
     public function GetName($firstname, $lastname)
     {
-        return 'Hello from php, '.$lastname.' '.$firstname.' !';
+        return 'Hello from php, '.$firstname.' '.$lastname.' !';
     }
 }
 </code>
 
 
-==3 - C# Client Service, create your call :==
+== C# Client Service, create your call :==
 
 <code language="c#">
 public void Services_Example_GetName_Completed(string myReturn)
@@ -39,3 +31,45 @@ public void GetHelloWorld()
 </code>
 
 This sample return "Hello from php, Jeff DOE !"
+
+NOTE : You must respect parameters order in your php method.
+
+
+
+== Recommended ==
+Send your parameters in object :
+
+
+== your method in PHP :==
+
+<code language="php">
+<?php
+class Services_Example 
+{
+    public function GetName($myCustomer)
+    {
+        return 'Hello from php, '.$myCustomer->firstname.' '.$myCustomer->lastname.' !';
+    }
+}
+</code>
+
+== C# Client Service, create your call :==
+
+<code language="c#">
+public void Services_Example_GetName_Completed(string myReturn)
+{
+     MessageBox.Show(myReturn);
+}
+
+public void GetHelloWorld()
+{
+  List<PhpClientParameter> parameters = new List<PhpClientParameter>();
+
+  dynamic MyCustomer = new { firstname = "Jeff", lastname = "DOE" };
+  parameters.Add( new PhpClientParameter("client", MyCustomer));
+
+  this.php.ExecuteAsync("Services_Example", "GetName", parameters);
+}
+</code>
+
+Dynamic is optional, you can create your objects.
