@@ -44,7 +44,9 @@ namespace PhpServicesExample
                 // Class with Services_Methodname1_Completed
                 this.php = new PhpClient("http://localhost/php-services/", "application/x-www-form-urlencoded", this);
 
-                this.Sample1();
+                //this.Sample1();
+                //this.Sample2();
+                this.Sample3();
             };
         }
 
@@ -60,6 +62,42 @@ namespace PhpServicesExample
         {
             // return in Services_Example_HelloWorld_Completed
             this.php.ExecuteAsync("Services_Example", "HelloWorld");
+        }
+
+
+
+
+
+        public void Services_Example_GetName_Completed(string myReturn)
+        {
+            this.ReturnText = myReturn;
+        }
+
+        public void Sample2()
+        {
+            List<PhpClientParameter> parameters = new List<PhpClientParameter>();
+            parameters.Add(new PhpClientParameter("firstname", "Jeff"));
+            parameters.Add(new PhpClientParameter("lastname", "DOE"));
+
+            this.php.ExecuteAsync("Services_Example", "GetName", parameters);
+        }
+
+
+
+
+        public void Services_Example_GetNameObject_Completed(string myReturn)
+        {
+            this.ReturnText = myReturn;
+        }
+
+        public void Sample3()
+        {
+            List<PhpClientParameter> parameters = new List<PhpClientParameter>();
+
+            dynamic MyCustomer = new { firstname = "Jeff", lastname = "DOE" };
+            parameters.Add( new PhpClientParameter("client", MyCustomer));
+
+            this.php.ExecuteAsync("Services_Example", "GetNameObject", parameters);
         }
 
 
