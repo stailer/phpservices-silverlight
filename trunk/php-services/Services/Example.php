@@ -17,4 +17,21 @@ class Services_Example
     {
         return 'Hello from php, '.$myCustomer->firstname.' '.$myCustomer->lastname.' !';
     }
+    
+    
+    
+    public function MyTask1()
+    {
+        return 'Hello ';
+    }
+    
+    public function MyTask2()
+    {
+        return 'Jeff DOE, ';
+    }
+    
+    public function MyTask3()
+    {
+        return 'How are you ?';
+    }
 }
