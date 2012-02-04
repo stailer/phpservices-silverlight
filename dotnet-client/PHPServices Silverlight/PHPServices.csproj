@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Batch.cs" />
+    <Compile Include="Events\IsActionCompletedChanged.cs" />
     <Compile Include="Events\IsBusyEventArgs.cs" />
     <Compile Include="PhpClient.cs" />
     <Compile Include="PhpClientParameter.cs" />

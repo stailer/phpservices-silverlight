@@ -155,7 +155,7 @@ namespace PHPServices
 
 
 
-        #region ExecuteAsync - gère l'envoie de données de façon générique aux services PHP
+        #region ExecuteAsync / ExecuteAsyncBatch - gère l'envoie de données de façon générique aux services PHP
         /// <summary>
         /// Cette méthode est utilisée pour automatiser un système de service avec php de type : classe->méthode( paramètres )
         /// </summary>
@@ -163,76 +163,103 @@ namespace PHPServices
         /// <param name="methodName"></param>
         /// <param name="datas"></param>
         /// <param name="userToken"></param>
-        public void ExecuteAsync(string serviceName, string methodName, List<PhpClientParameter> datas, object userToken, bool isBatching)
+        public void ExecuteAsync(string serviceName, string methodName, List<PhpClientParameter> datas, object userToken)
         {
             // une requête de plus vient d'être exécutée
             this.BusyQueries++;
 
-            if (isBatching) {
-                BatchFlag.Add((b) =>
-                {
-                     // construction requête asynchrone
-                    WebClient srv = new WebClient();
-                    srv.UploadStringCompleted += (sender, e) =>
-                    {
-                        this.ExecuteController(e, this.Caller);
-                        srv = null;
-                        this.BusyQueries--;
+            // construction requête asynchrone
+            WebClient srv = new WebClient();
+            srv.UploadStringCompleted += (sender, e) =>
+            {
+                this.ExecuteController(e, this.Caller);
+                srv = null;
+                this.BusyQueries--;
+            };
 
-                        b.IsCompleted = true;
-                    };
+            this.ExecuteOnPHPServer(srv, serviceName, methodName, datas, userToken);
+        }
 
-                    this.ExecuteOnPHPServer(srv, serviceName, methodName, datas, userToken);
-                });
-            }
-            else {
-                 
+
+
+
+
+        /// <summary>
+        /// Version batchée de ExecuteAsync. Permet une exécution en chaine dans n'importe quel ordre d'appel en fonction de la précédente BatchAction Completed
+        /// </summary>
+        /// <param name="serviceName"></param>
+        /// <param name="methodName"></param>
+        /// <param name="datas"></param>
+        /// <param name="userToken"></param>
+        /// <returns></returns>
+        public Guid ExecuteAsyncBatch(string serviceName, string methodName, List<PhpClientParameter> datas, object userToken)
+        {
+            Guid ky = BatchFlag.Add(BatchExecutionModes.Manual, (b) =>
+            {
+                // une requête de plus vient d'être exécutée
+                this.BusyQueries++;
+
                 // construction requête asynchrone
                 WebClient srv = new WebClient();
                 srv.UploadStringCompleted += (sender, e) =>
                 {
                     this.ExecuteController(e, this.Caller);
+
                     srv = null;
                     this.BusyQueries--;
+
+                    b.IsCompleted = true; 
                 };
 
+                this.ExecuteOnPHPServer(srv, serviceName, methodName, datas, b);
+            });
 
-                this.ExecuteOnPHPServer(srv, serviceName, methodName, datas, userToken);
-            }
-
+            return ky;
         }
         #endregion
 
 
-        #region surcharges ExecuteAsync
+
+        #region surcharges ExecuteAsync / ExecuteAsyncBatch
         public void ExecuteAsync(string serviceName, string methodName)
         {
-            this.ExecuteAsync(serviceName, methodName, new List<PhpClientParameter>(), null, false);
-        }
-
-        public void ExecuteAsync(string serviceName, string methodName, bool isBatching)
-        {
-            this.ExecuteAsync(serviceName, methodName, new List<PhpClientParameter>(), null, isBatching);
-        }
-
-        public void ExecuteAsync(string serviceName, string methodName, List<PhpClientParameter> datas, bool isBatching)
-        {
-            this.ExecuteAsync(serviceName, methodName, datas, null, isBatching);
+            this.ExecuteAsync(serviceName, methodName, new List<PhpClientParameter>(), null);
         }
 
         public void ExecuteAsync(string serviceName, string methodName, List<PhpClientParameter> datas)
         {
-            this.ExecuteAsync(serviceName, methodName, datas, null, false);
+            this.ExecuteAsync(serviceName, methodName, datas, null);
         }
 
 
-        public void ExecuteAsync(string serviceName, string methodName, object userToken, bool isBatching)
+        public void ExecuteAsync(string serviceName, string methodName, object userToken)
         {
-            this.ExecuteAsync(serviceName, methodName, new List<PhpClientParameter>(), userToken, isBatching);
+            this.ExecuteAsync(serviceName, methodName, new List<PhpClientParameter>(), userToken);
+        }
+
+
+
+
+
+
+
+        
+        public Guid ExecuteAsyncBatch(string serviceName, string methodName)
+        {
+            return this.ExecuteAsyncBatch(serviceName, methodName, new List<PhpClientParameter>(), null);
+        }
+
+        public Guid ExecuteAsyncBatch(string serviceName, string methodName, List<PhpClientParameter> datas)
+        {
+            return this.ExecuteAsyncBatch(serviceName, methodName, datas, null);
+        }
+
+
+        public Guid ExecuteAsyncBatch(string serviceName, string methodName, object userToken)
+        {
+            return this.ExecuteAsyncBatch(serviceName, methodName, new List<PhpClientParameter>(), userToken);
         }
         #endregion
-
-
 
 
 

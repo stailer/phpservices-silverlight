@@ -3,6 +3,8 @@ using System.Net;
 
 using System.Collections.Generic;
 using System.Threading;
+using System.ComponentModel;
+using PHPServices.Events;
 
 public enum BatchExecutionModes
 {
@@ -28,13 +30,11 @@ namespace PHPServices.Classes
         /// <summary>
         /// Evenement
         /// </summary>
-
         public event System.EventHandler Completed;
 
         /// <summary>
         /// Constructeur
         /// </summary>
-
         public Batch()
         {
         }
@@ -43,7 +43,6 @@ namespace PHPServices.Classes
         /// Lancement des Batchs avec des Threads
         /// </summary>
         /// <param name="useNewThread"></param>
-
         public Batch(bool useNewThread)
         {
             this.UseNewThread = useNewThread;
@@ -52,7 +51,6 @@ namespace PHPServices.Classes
         /// <summary>
         /// Utilsation de thread pour le lancement
         /// </summary>
-
         public bool UseNewThread
         {
             get;
@@ -64,7 +62,6 @@ namespace PHPServices.Classes
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-
         public Guid Add(Action<BatchAction> action)
         {
             return this.Add(BatchExecutionModes.Auto, action);
@@ -74,7 +71,6 @@ namespace PHPServices.Classes
         /// Ajouter une action
         /// </summary>
         /// <param name="action"></param>
-
         public Guid Add(BatchExecutionModes executionMode, Action<BatchAction> action )
         {
             Guid key = Guid.NewGuid();
@@ -88,7 +84,6 @@ namespace PHPServices.Classes
         /// Execution d'une action en mode thread ou non
         /// </summary>
         /// <param name="action"></param>
-
         private void Run(BatchAction action)
         {
             if (this.UseNewThread == false)
@@ -97,6 +92,7 @@ namespace PHPServices.Classes
             }
             else
             {
+
                 action.RunThreaded();
             }
         }
@@ -104,7 +100,6 @@ namespace PHPServices.Classes
         /// <summary>
         /// Fait fonctionner les Batchs marqués Auto
         /// </summary>
-
         public void Run()
         {
             foreach (BatchAction action in this.batchs.Values)
@@ -116,11 +111,11 @@ namespace PHPServices.Classes
             }
         }
 
+
         /// <summary>
         /// Lance un batch marqué Manual à l'aide de sa clé
         /// </summary>
         /// <param name="key"></param>
-
         public bool Run(Guid key)
         {
             BatchAction action;
@@ -141,6 +136,9 @@ namespace PHPServices.Classes
 
             return false;
         }
+
+
+
 
         /// <summary>
         /// Retrouver
@@ -163,7 +161,6 @@ namespace PHPServices.Classes
         /// <summary>
         /// vérifier que tout est complet
         /// </summary>
-
         public bool CheckCompleted()
         {
             foreach( BatchAction action in this.batchs.Values )
@@ -185,7 +182,6 @@ namespace PHPServices.Classes
         /// <summary>
         /// Nettoyage
         /// </summary>
-
         public void Clears()
         {
             this.batchs.Clear();
@@ -194,7 +190,6 @@ namespace PHPServices.Classes
         /// <summary>
         /// Nettoyage de IsCompleted
         /// </summary>
-
         public void ClearIsCompleted()
         {
             foreach( BatchAction action in this.batchs.Values )
@@ -208,15 +203,22 @@ namespace PHPServices.Classes
     /// Message de Batch
     /// </summary>
 
-    public class BatchAction
+    public class BatchAction : INotifyPropertyChanged
     {
+
+        public event IsActionCompletedEventHandler IsActionCompletedChanged;
+        protected virtual void OnIsActionCompletedChanged(IsActionCompletedEventArgs e)
+        {
+            IsActionCompletedChanged(this, e);
+        }
+
+
         /// <summary>
         /// Constructeur
         /// </summary>
         /// <param name="batch"></param>
         /// <param name="key"></param>
         /// <param name="tag"></param>
-
         public BatchAction(Batch batch, Action<BatchAction> action, BatchExecutionModes executionMode)
         {
             this.Batch = batch;
@@ -227,7 +229,6 @@ namespace PHPServices.Classes
         /// <summary>
         /// Mode d'execution
         /// </summary>
-
         public BatchExecutionModes ExecutionMode
         {
             get;
@@ -237,7 +238,6 @@ namespace PHPServices.Classes
         /// <summary>
         /// Tag
         /// </summary>
-
         public object UserState
         {
             get;
@@ -249,7 +249,6 @@ namespace PHPServices.Classes
         /// <summary>
         /// Est-ce complet
         /// </summary>
-
         public bool IsCompleted
         {
             get
@@ -268,18 +267,22 @@ namespace PHPServices.Classes
                         if (value == true)
                         {
                             this.Batch.CheckCompleted();
+                            OnPropertyChanged("IsCompleted");
+                            OnIsActionCompletedChanged(new IsActionCompletedEventArgs(value));
                         }
                     }
                 }
+
+
             }
         }
+
 
         private bool isCompleted = false;
 
         /// <summary>
         /// Batch
         /// </summary>
-
         public Batch Batch
         {
             get;
@@ -295,7 +298,6 @@ namespace PHPServices.Classes
         /// <summary>
         /// Run
         /// </summary>
-
         public void Run()
         {
             this.IsCompleted = false;
@@ -305,11 +307,24 @@ namespace PHPServices.Classes
         /// <summary>
         /// Demarrage threadé
         /// </summary>
-
         public void RunThreaded()
         {
             Thread thread = new Thread(new ThreadStart(this.Run));
             thread.Start();
         }
+
+
+
+        
+        #region PropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
+        #endregion
     }
 }

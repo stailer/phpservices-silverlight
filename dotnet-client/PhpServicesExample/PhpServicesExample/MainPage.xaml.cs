@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.ComponentModel;
 
 using PHPServices;
+using PHPServices.Classes;
 #endregion
 
 
@@ -46,7 +47,9 @@ namespace PhpServicesExample
 
                 //this.Sample1();
                 //this.Sample2();
-                this.Sample3();
+                //this.Sample3();
+
+                this.Sample4();
             };
         }
 
@@ -100,6 +103,59 @@ namespace PhpServicesExample
             this.php.ExecuteAsync("Services_Example", "GetNameObject", parameters);
         }
 
+
+
+
+
+
+
+        public void Services_Example_MyTask1_Completed(string myReturn)
+        {
+            this.ReturnText = myReturn;
+        }
+
+
+        public void Services_Example_MyTask2_Completed(string myReturn)
+        {
+            this.ReturnText += myReturn;
+        }
+
+
+        public void Services_Example_MyTask3_Completed(string myReturn)
+        {
+            this.ReturnText += myReturn;
+        }
+
+
+        private void Sample4()
+        {
+            this.php.BatchFlag = new Batch();
+            this.php.BatchFlag.Completed += (sender, e) =>
+            {
+                this.ReturnText +=  ", All is completed : )"; // Called when all task are ok
+            };
+
+
+            Guid tsk1 = this.php.ExecuteAsyncBatch("Services_Example", "MyTask1");
+            Guid tsk2 = this.php.ExecuteAsyncBatch("Services_Example", "MyTask2"); 
+            Guid tsk3 = this.php.ExecuteAsyncBatch("Services_Example", "MyTask3"); 
+
+
+            BatchAction act1 = this.php.BatchFlag.Find(tsk1);  
+            act1.IsActionCompletedChanged += (sender, e) =>
+            {
+               this.php.BatchFlag.Run(tsk2); // Called when my task1 is completed
+            };
+
+
+            BatchAction act2 = this.php.BatchFlag.Find(tsk2);
+            act2.IsActionCompletedChanged += (sender, e) =>
+            {
+               this.php.BatchFlag.Run(tsk3);   // Called when my task2 is completed
+            };
+
+            this.php.BatchFlag.Run(tsk1);
+        }
 
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

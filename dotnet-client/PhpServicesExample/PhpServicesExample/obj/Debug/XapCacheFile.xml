@@ -1,9 +1,9 @@
-﻿<xapCache source="D:\JFC\phpservices-silverlight\dotnet-client\PhpServicesExample\PhpServicesExample\Bin\Debug\PhpServicesExample.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="01/02/2012 23:52:41">
-  <file source="D:\JFC\phpservices-silverlight\dotnet-client\PhpServicesExample\PhpServicesExample\obj\Debug\PhpServicesExample.dll" archivePath="PhpServicesExample.dll" lastWriteTime="01/02/2012 23:52:41" />
+﻿<xapCache source="D:\JFC\phpservices-silverlight\dotnet-client\PhpServicesExample\PhpServicesExample\Bin\Debug\PhpServicesExample.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="04/02/2012 01:07:22">
+  <file source="D:\JFC\phpservices-silverlight\dotnet-client\PhpServicesExample\PhpServicesExample\obj\Debug\PhpServicesExample.dll" archivePath="PhpServicesExample.dll" lastWriteTime="04/02/2012 01:07:21" />
   <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\Microsoft.CSharp.dll" archivePath="Microsoft.CSharp.dll" lastWriteTime="18/11/2011 17:40:20" />
-  <file source="D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\Bin\Debug\PHPServices.dll" archivePath="PHPServices.dll" lastWriteTime="31/01/2012 00:02:06" />
+  <file source="D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\Bin\Debug\PHPServices.dll" archivePath="PHPServices.dll" lastWriteTime="04/02/2012 01:00:25" />
   <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Data.Input.dll" archivePath="System.Windows.Controls.Data.Input.dll" lastWriteTime="18/11/2011 17:40:20" />
   <file source="D:\JFC\phpservices-silverlight\dotnet-client\PHPServices Silverlight\Bin\Debug\Newtonsoft.Json.dll" archivePath="Newtonsoft.Json.dll" lastWriteTime="11/12/2011 01:12:56" />
   <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.ComponentModel.DataAnnotations.dll" archivePath="System.ComponentModel.DataAnnotations.dll" lastWriteTime="18/11/2011 17:40:20" />
-  <file source="D:\JFC\phpservices-silverlight\dotnet-client\PhpServicesExample\PhpServicesExample\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="01/02/2012 23:46:29" />
+  <file source="D:\JFC\phpservices-silverlight\dotnet-client\PhpServicesExample\PhpServicesExample\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="04/02/2012 00:57:45" />
 </xapCache>
