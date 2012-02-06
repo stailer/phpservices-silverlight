@@ -99,6 +99,10 @@ namespace PHPServices
         public void Dispose()
         {
             this.Caller = null;
+            if (this.BatchFlag != null)
+                this.BatchFlag.Clears();
+
+            this.BatchFlag = null;
         }
         #endregion
 
