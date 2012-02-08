@@ -121,7 +121,7 @@ namespace PHPServices
                     Type myTypeObj = launcher.GetType();
                     MethodInfo myMethodInfo = myTypeObj.GetMethod(obj.MethodName);
 
-                    if (myMethodInfo.GetParameters().Count() == 1)
+                    if (myMethodInfo != null && myMethodInfo.GetParameters().Count() == 1)
                     {
                         ParameterInfo info = myMethodInfo.GetParameters()[0];
 
@@ -142,8 +142,9 @@ namespace PHPServices
                         info = null;
                         deserializeDefinition = null;
                     }
-                    else
+                    else if (myMethodInfo != null)
                         myMethodInfo.Invoke(launcher, new object[] { });
+
 
                     myTypeObj = null;
                     myMethodInfo = null;
