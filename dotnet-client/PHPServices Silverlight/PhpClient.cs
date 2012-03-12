@@ -103,6 +103,8 @@ namespace PHPServices
                 this.BatchFlag.Clears();
 
             this.BatchFlag = null;
+
+            GC.SuppressFinalize(this);
         }
         #endregion
 
@@ -170,21 +172,29 @@ namespace PHPServices
         /// <param name="userToken"></param>
         public void ExecuteAsync(string serviceName, string methodName, List<PhpClientParameter> datas, object userToken)
         {
-            // une requête de plus vient d'être exécutée
-            this.BusyQueries++;
-
-            // construction requête asynchrone
-            WebClient srv = new WebClient();
-            srv.UploadStringCompleted += (sender, e) =>
+            try
             {
-                this.ExecuteController(e, this.Caller);
-                srv = null;
-                this.BusyQueries--;
-            };
+                // une requête de plus vient d'être exécutée
+                this.BusyQueries++;
 
-            this.ExecuteOnPHPServer(srv, serviceName, methodName, datas, userToken);
+                // construction requête asynchrone
+                WebClient srv = new WebClient();
+                srv.UploadStringCompleted += (sender, e) =>
+                {
+                    this.ExecuteController(e, this.Caller);
+
+                    srv = null;
+                    this.BusyQueries--;
+                };
+
+
+                this.ExecuteOnPHPServer(srv, serviceName, methodName, datas, userToken);
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message, err.InnerException);
+            }
         }
-
 
 
 
